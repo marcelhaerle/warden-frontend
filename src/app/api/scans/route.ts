@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const BASE_API_URL = process.env.BASE_API_URL;
+const DEFAULT_LIMIT = 50;
+const DEFAULT_OFFSET = 0;
+const MAX_LIMIT = 100;
 
 export async function GET(request: NextRequest) {
   if (!BASE_API_URL) {
@@ -8,8 +13,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Server configuration error" }, { status: 500 });
   }
   const { searchParams } = new URL(request.url);
-  const limit = searchParams.get("limit") || "50";
-  const offset = searchParams.get("offset") || "0";
+  const rawLimit = parseInt(searchParams.get("limit") ?? String(DEFAULT_LIMIT), 10);
+  const rawOffset = parseInt(searchParams.get("offset") ?? String(DEFAULT_OFFSET), 10);
+  const limit = isNaN(rawLimit) || rawLimit < 1 ? DEFAULT_LIMIT : Math.min(rawLimit, MAX_LIMIT);
+  const offset = isNaN(rawOffset) || rawOffset < 0 ? DEFAULT_OFFSET : rawOffset;
 
   try {
     const res = await fetch(`${BASE_API_URL}/scans?limit=${limit}&offset=${offset}`, {
