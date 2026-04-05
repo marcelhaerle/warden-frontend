@@ -66,17 +66,21 @@ export function ScanTable({ scans, isLoading, error }: ScanTableProps) {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant={
-                      (scan.hardening_index ?? 0) < 60
-                        ? "destructive"
-                        : (scan.hardening_index ?? 0) < 80
-                        ? "secondary"
-                        : "default"
-                    }
-                  >
-                    {scan.hardening_index ?? "N/A"}
-                  </Badge>
+                  {scan.hardening_index == null ? (
+                    <Badge variant="outline">N/A</Badge>
+                  ) : (
+                    <Badge
+                      variant={
+                        scan.hardening_index < 60
+                          ? "destructive"
+                          : scan.hardening_index < 80
+                          ? "secondary"
+                          : "default"
+                      }
+                    >
+                      {scan.hardening_index}
+                    </Badge>
+                  )}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
