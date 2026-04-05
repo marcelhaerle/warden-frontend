@@ -20,7 +20,14 @@ export default function ScansPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/scans?limit=${limit}&offset=${offset}`);
+        const params = new URLSearchParams({
+          limit: String(limit),
+          offset: String(offset),
+        });
+        if (hostnameFilter) {
+          params.set("hostname", hostnameFilter);
+        }
+        const response = await fetch(`/api/scans?${params.toString()}`);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -35,7 +42,12 @@ export default function ScansPage() {
     };
 
     fetchScans();
-  }, [limit, offset]);
+  }, [limit, offset, hostnameFilter]);
+
+  const handleHostnameFilterChange = (value: string) => {
+    setHostnameFilter(value);
+    setOffset(0);
+  };
 
   const handleNextPage = () => {
     if (offset + limit < total) {
@@ -49,17 +61,13 @@ export default function ScansPage() {
     }
   };
 
-  const filteredScans = scans.filter((scan) =>
-    scan.hostname.toLowerCase().includes(hostnameFilter.toLowerCase())
-  );
-
   return (
     <div className="space-y-6">
       <PageHeader
         hostnameFilter={hostnameFilter}
-        onHostnameFilterChange={setHostnameFilter}
+        onHostnameFilterChange={handleHostnameFilterChange}
       />
-      <ScanTable scans={filteredScans} isLoading={isLoading} error={error} />
+      <ScanTable scans={scans} isLoading={isLoading} error={error} />
       <PaginationControls
         offset={offset}
         limit={limit}
