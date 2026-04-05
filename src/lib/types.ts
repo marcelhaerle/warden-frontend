@@ -16,3 +16,16 @@ export interface DashboardStats {
   buckets: HardeningBuckets;
   needs_attention: AttentionHost[];
 }
+
+export interface ScanRunSummary {
+  id: number;
+  agent_version: string;
+  hostname: string;
+  reported_at: string;
+  success: boolean;
+  error?: string;
+  result_count: number;
+  hardening_index?: number;
+  warnings?: number;
+  suggestions?: number;
+}
