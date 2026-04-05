@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const BASE_API_URL = process.env.BASE_API_URL || "http://localhost:8000";
+const BASE_API_URL = process.env.BASE_API_URL;
 
 export async function GET(request: NextRequest) {
+  if (!BASE_API_URL) {
+    console.error("BASE_API_URL is not configured");
+    return NextResponse.json({ message: "Server configuration error" }, { status: 500 });
+  }
   const { searchParams } = new URL(request.url);
   const limit = searchParams.get("limit") || "50";
   const offset = searchParams.get("offset") || "0";
