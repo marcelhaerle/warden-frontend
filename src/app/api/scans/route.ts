@@ -17,9 +17,17 @@ export async function GET(request: NextRequest) {
   const rawOffset = parseInt(searchParams.get("offset") ?? String(DEFAULT_OFFSET), 10);
   const limit = isNaN(rawLimit) || rawLimit < 1 ? DEFAULT_LIMIT : Math.min(rawLimit, MAX_LIMIT);
   const offset = isNaN(rawOffset) || rawOffset < 0 ? DEFAULT_OFFSET : rawOffset;
+  const hostname = searchParams.get("hostname");
 
   try {
-    const res = await fetch(`${BASE_API_URL}/scans?limit=${limit}&offset=${offset}`, {
+    const backendParams = new URLSearchParams({
+      limit: String(limit),
+      offset: String(offset),
+    });
+    if (hostname) {
+      backendParams.set("hostname", hostname);
+    }
+    const res = await fetch(`${BASE_API_URL}/scans?${backendParams.toString()}`, {
       headers: {
         "Content-Type": "application/json",
       },
