@@ -153,7 +153,7 @@ src/
     app/
         globals.css
         layout.tsx
-        age.tsx
+        page.tsx
 ```
 
 ## Notes
