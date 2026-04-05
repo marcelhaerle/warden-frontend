@@ -6,7 +6,7 @@ export interface HardeningBuckets {
 
 export interface AttentionHost {
   hostname: string;
-  hardening_index: number;
+  last_score: number;
   last_seen: string;
 }
 
