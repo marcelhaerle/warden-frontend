@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  --background: #090b14;
+  --panel: #131a2a;
+  --panel-soft: #0f1522;
+  --foreground: #e6e8ef;
+  --muted: #9ea4b3;
+  --line: rgba(148, 163, 184, 0.26);
+  --accent: #6366f1;
+  --accent-strong: #8b5cf6;
+  --danger: #f43f5e;
+  --warning: #a78bfa;
+  --ok: #818cf8;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(129, 140, 248, 0.2), transparent 36%),
+    radial-gradient(circle at 88% 6%, rgba(139, 92, 246, 0.22), transparent 24%),
+    linear-gradient(160deg, #070911, #0d1423 46%, #12192b 100%);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+.shell-grid {
+  background:
+    radial-gradient(60rem 30rem at 8% -8%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(48rem 28rem at 92% -12%, rgba(139, 92, 246, 0.24), transparent 62%),
+    radial-gradient(40rem 20rem at 50% 120%, rgba(71, 85, 105, 0.2), transparent 70%),
+    linear-gradient(180deg, rgba(9, 11, 20, 0.58), rgba(9, 11, 20, 0.84));
+}
+
+.section-band {
+  border: 1px solid var(--line);
+  border-left: 0;
+  border-right: 0;
+}
+
+.section-band-navy {
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.78), rgba(15, 23, 42, 0.62));
+}
+
+.section-band-indigo {
+  background: linear-gradient(180deg, rgba(30, 27, 75, 0.54), rgba(17, 24, 39, 0.62));
+}
+
+.section-band-violet {
+  background: linear-gradient(180deg, rgba(49, 46, 129, 0.45), rgba(30, 27, 75, 0.58));
+}
+
+.signal-dot {
+  box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.6);
+  animation: signal-pulse 2.1s infinite;
+}
+
+@keyframes signal-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(129, 140, 248, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(129, 140, 248, 0);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.6s ease-out both;
+}
